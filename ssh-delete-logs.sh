@@ -32,7 +32,7 @@ cat "$IP_FILE" | while read -r ip; do
         sudo crontab -l > ~/crontab_backup_\$DATE;
         sudo mkdir -p /var/log/tomcat8;
         sudo chmod 777 /var/log/tomcat8;
-        sudo crontab -l | grep -v '/var/log' | { cat; echo '0 0 * * * rm /var/log/tomcat8/*'; } | sudo crontab -;
+        sudo crontab -l | grep -v '/var/log' | { cat; echo '0 0 * * * rm /var/log/tomcat8/* && echo > /var/log/syslog && echo > /var/log/auth.log && echo > /var/log/kern.log && echo > /var/log/messages'; } | sudo crontab -;
         sudo service tomcat8 restart
     " && echo "Crontab-Backup erstellt, Ordner /var/log/tomcat8 erstellt, Crontab für $ip als Root-Benutzer aktualisiert und Tomcat neugestartet." || echo "Fehler bei der Bearbeitung von $ip"
 done
